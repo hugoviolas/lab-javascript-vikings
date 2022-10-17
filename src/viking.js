@@ -55,8 +55,23 @@ class War {
   addSaxon(Saxon) {
     this.saxonArmy.push(Saxon);
   }
-  genericAttack(attacker){
-
+  genericAttack(attacker) {
+    let victim = "";
+    if (attacker === "viking") {
+      attacker = this.vikingArmy;
+      victim = this.saxonArmy;
+    } else {
+      attacker = this.saxonArmy;
+      victim = this.vikingArmy;
+    }
+    let randomVictim = victim[Math.floor(Math.random() * victim.length)];
+    let randomAttackerStrength =
+      attacker[Math.floor(Math.random() * attacker.length)].strength;
+    let attackResult = randomVictim.receiveDamage(randomAttackerStrength);
+    if (randomVictim.health <= 0) {
+      victim.splice(victim.indexOf(randomVictim), 1);
+    }
+    return attackResult;
   }
   vikingAttack() {
     let randomSaxon =
@@ -66,7 +81,7 @@ class War {
         .strength;
     let attackResult = randomSaxon.receiveDamage(randomVikingStrength);
     if (randomSaxon.health <= 0) {
-      this.saxonArmy.splice(this.saxonArmy.indexOf[randomSaxon], 1);
+      this.saxonArmy.splice(this.saxonArmy.indexOf(randomSaxon), 1);
     }
     return attackResult;
   }
@@ -94,8 +109,12 @@ class War {
 }
 // const viktor = new Viking("Viktor", 100, 15);
 // const frederic = new Viking("Fredo", 10, 0.5);
+// const gunther = new Saxon("Gunther", 10, 5);
+// const friedrich = new Saxon("Friedrich", 20, 5);
 // const war = new War();
 // war.addViking(viktor);
 // war.addViking(frederic);
+// war.addSaxon(gunther);
+// war.addSaxon(friedrich);
 
-// console.log(war.vikingArmy);
+// console.log(war.genericAttack("saxon"));
